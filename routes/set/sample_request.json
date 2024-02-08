@@ -1,0 +1,14 @@
+[
+    {
+        "Monday": false,
+        "Tuesday": false,
+        "Wednesday": false,
+        "Thursday": true,
+        "Friday": false,
+        "Saturday": false,
+        "Sunday": false
+    },
+    {
+        "time": "7:15"
+    }
+]
