@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dart_frog/dart_frog.dart';
+import 'package:rpi_gpio/rpi_gpio.dart';
 
 import '../table/time.dart';
 import '../table/weekdays.dart';
-
-const testJson =
-    '''[{"Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": true, "Friday": false, "Saturday": false, "Sunday": false},{"time": "7:15"}]''';
+import '../utilities/get_date_time.dart';
+import '../utilities/output_app.dart';
 
 // Response onRequest(RequestContext context) {
 //   return Response.json(body: {'message': 'POST received.'});
@@ -72,4 +72,26 @@ Future<Response> _post(RequestContext context) async {
   // update main variables for main function
   //send a return response
   return Response(body: context.request.body.toString());
+}
+
+// TODO: test to make sure this works, and that it also runs constantly
+void rpiFunctions() async {
+  final gpio = await initialize_RpiGpio();
+
+  Timer.periodic(Duration(minutes: 1), (Timer t) async {
+    //get date and time from tables
+    Map<String, bool> weekdaysFromTable = getWeekdays();
+    String timeFromTable = getTime();
+    if (checkDayAndTimeMatch(
+        scheduledTimeString: timeFromTable,
+        scheduledWeekdaysIntList: weekdaysFromTable)) {
+      try {
+        await unlockLock(gpio);
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      print('It is not time to open the door yet.');
+    }
+  });
 }
