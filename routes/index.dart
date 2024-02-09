@@ -78,17 +78,18 @@ Future<Response> _post(RequestContext context) async {
 void rpiFunctions() async {
   final gpio = await initialize_RpiGpio();
 
-  Timer.periodic(Duration(minutes: 1), (Timer t) async {
+  Timer.periodic(const Duration(minutes: 1), (Timer t) async {
     //get date and time from tables
-    Map<String, bool> weekdaysFromTable = getWeekdays();
-    String timeFromTable = getTime();
+    final weekdaysFromTable = getWeekdays();
+    final timeFromTable = getTime();
     if (checkDayAndTimeMatch(
-        scheduledTimeString: timeFromTable,
-        scheduledWeekdaysIntList: weekdaysFromTable)) {
+      scheduledTimeString: timeFromTable,
+      scheduledWeekdaysIntList: weekdaysFromTable,
+    )) {
       try {
         await unlockLock(gpio);
       } catch (e) {
-        print(e);
+        throw Exception(e);
       }
     } else {
       print('It is not time to open the door yet.');
