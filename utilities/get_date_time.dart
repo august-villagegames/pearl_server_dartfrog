@@ -3,7 +3,7 @@ bool checkDayAndTimeMatch({
   required Map<String, bool> scheduledWeekdaysIntList,
 }) {
   //converts map to list of integers for weekdays that are set as true
-  List<int> trueWeekdays = [];
+  final trueWeekdays = <int>[];
   scheduledWeekdaysIntList.forEach((weekday, isTrue) {
     if (isTrue) {
       switch (weekday) {

@@ -1,7 +1,10 @@
+#!/usr/bin/env dart
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dart_frog/dart_frog.dart';
+import 'package:rpi_gpio/gpio.dart';
 import 'package:rpi_gpio/rpi_gpio.dart';
 
 import '../table/time.dart';
@@ -39,7 +42,7 @@ Future<Response> _post(RequestContext context) async {
     final weekdays = jsonDecoded[0];
     //update files
     if (weekdays is Map<String, dynamic>) {
-      Map<String, bool> weekdaysMap = Map<String, bool>.from(weekdays);
+      final weekdaysMap = Map<String, bool>.from(weekdays);
       try {
         setWeekdaysJsonTable(weekdaysMap);
         // TODO: create function in another file to get and set dates
@@ -59,7 +62,7 @@ Future<Response> _post(RequestContext context) async {
     final jsonDecoded = jsonDecode(body);
     final time = jsonDecoded[1];
     if (time is Map<String, dynamic> && time.containsKey('time')) {
-      String timeString = time['time'] as String;
+      final timeString = time['time'] as String;
       setTimeJsonTable(timeString);
       // TODO: create function in another file to get and set time
     } else {
@@ -75,7 +78,7 @@ Future<Response> _post(RequestContext context) async {
 }
 
 // TODO: test to make sure this works, and that it also runs constantly
-void rpiFunctions() async {
+Future<void> rpiFunctions() async {
   final gpio = await initialize_RpiGpio();
 
   Timer.periodic(const Duration(minutes: 1), (Timer t) async {
@@ -88,7 +91,9 @@ void rpiFunctions() async {
     )) {
       try {
         await unlockLock(gpio);
-      } catch (e) {
+      } on GpioException catch (message) {
+        print(GpioException(message.toString()));
+      } on Exception catch (e) {
         throw Exception(e);
       }
     } else {
