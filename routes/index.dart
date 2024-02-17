@@ -17,6 +17,7 @@ import '../utilities/output_app.dart';
 // }
 
 FutureOr<dynamic> onRequest(RequestContext context) {
+  print('pearl smart crate has started');
   switch (context.request.method) {
     case HttpMethod.post:
       return _post(context);
