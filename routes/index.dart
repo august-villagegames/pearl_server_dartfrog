@@ -12,10 +12,6 @@ import '../table/weekdays.dart';
 import '../utilities/get_date_time.dart';
 import '../utilities/output_app.dart';
 
-// Response onRequest(RequestContext context) {
-//   return Response.json(body: {'message': 'POST received.'});
-// }
-
 FutureOr<dynamic> onRequest(RequestContext context) {
   print('pearl smart crate has started');
   switch (context.request.method) {
