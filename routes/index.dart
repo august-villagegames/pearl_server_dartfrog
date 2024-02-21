@@ -11,10 +11,11 @@ import '../table/time.dart';
 import '../table/weekdays.dart';
 import '../utilities/get_date_time.dart';
 import '../utilities/output_app.dart';
+// import '../utilities/singletonRpiGpio.dart';
 
 Future<void> init(InternetAddress ip, int port) async {
-  // Any code initialized within this method will only run on server start, any hot reloads
-  // afterwards will not trigger this method until a hot restart.
+  // RpiGpio singleton = await SingletonRpiGpio().initializeRpiGpio();
+  // await singleton.initializeRpiGpio();
   print('server starter');
   final weekdays = getWeekdays().toString();
   final time = getTime().toString();
@@ -40,9 +41,12 @@ FutureOr<dynamic> onRequest(RequestContext context) {
 //save new values
 Future<Response> _post(RequestContext context) async {
   // split json into days
-
   final request = context.request;
   final body = await request.body();
+  // final gpio = SingletonRpiGpio.getGpio();
+  // if (body.contains("open")) {
+  //   return openRequest(context);
+  // }
 
   try {
     final jsonDecoded = jsonDecode(body);

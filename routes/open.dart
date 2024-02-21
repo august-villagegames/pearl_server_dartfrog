@@ -4,9 +4,10 @@ import 'package:rpi_gpio/rpi_gpio.dart';
 
 import '../utilities/output_app.dart';
 
-Future<Response> onRequest(RequestContext context) async {
+Future<Response> openRequest(RequestContext context, Gpio gpio) async {
   print('open reached');
-  final gpio = await initialize_RpiGpio();
+  RpiGpio gpio = await initialize_RpiGpio();
+
   try {
     await unlockLock(gpio);
     print('open successful');
@@ -15,5 +16,6 @@ Future<Response> onRequest(RequestContext context) async {
   } on Exception catch (e) {
     throw Exception(e);
   }
+  await gpio.dispose();
   return Response.json(body: {'message': 'open crate command received.'});
 }

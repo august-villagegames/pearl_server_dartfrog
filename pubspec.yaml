@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   dart_frog: ^1.0.0
+  get_it: ^7.6.7
   http: ^1.2.0
   rpi_gpio: ^0.9.1
   shelf_cors_headers: ^0.1.5
