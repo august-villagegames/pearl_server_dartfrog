@@ -5,6 +5,7 @@ import 'package:rpi_gpio/rpi_gpio.dart';
 import '../utilities/output_app.dart';
 
 Future<Response> onRequest(RequestContext context) async {
+  print('open reached');
   final gpio = await initialize_RpiGpio();
   try {
     await unlockLock(gpio);

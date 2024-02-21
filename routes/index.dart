@@ -12,6 +12,16 @@ import '../table/weekdays.dart';
 import '../utilities/get_date_time.dart';
 import '../utilities/output_app.dart';
 
+Future<void> init(InternetAddress ip, int port) async {
+  // Any code initialized within this method will only run on server start, any hot reloads
+  // afterwards will not trigger this method until a hot restart.
+  print('server starter');
+  final weekdays = getWeekdays().toString();
+  final time = getTime().toString();
+  print(weekdays);
+  print(time);
+}
+
 FutureOr<dynamic> onRequest(RequestContext context) {
   print('pearl smart crate has started');
   switch (context.request.method) {
