@@ -8,6 +8,7 @@ Future<Response> onRequest(RequestContext context) async {
   final gpio = await initialize_RpiGpio();
   try {
     await unlockLock(gpio);
+    print('open successful');
   } on GpioException catch (message) {
     print(GpioException(message.toString()));
   } on Exception catch (e) {
