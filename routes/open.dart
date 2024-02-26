@@ -20,7 +20,12 @@ Future<Response> onRequest(RequestContext context) async {
   // }
   // await gpio.dispose();
 
-  final process = await Process.run('sudo', ['python3', 'utilities/blink.py']);
-  print(process.stdout);
+  try {
+    final process =
+        await Process.run('sudo', ['python3', 'utilities/blink.py']);
+    print(process.stdout);
+  } catch (e) {
+    throw Exception(e);
+  }
   return Response.json(body: {'message': 'open crate command received.'});
 }
