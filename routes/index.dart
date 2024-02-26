@@ -14,13 +14,7 @@ import '../utilities/output_app.dart';
 // import '../utilities/singletonRpiGpio.dart';
 
 Future<void> init(InternetAddress ip, int port) async {
-  // RpiGpio singleton = await SingletonRpiGpio().initializeRpiGpio();
-  // await singleton.initializeRpiGpio();
-  print('server starter');
-  final weekdays = getWeekdays().toString();
-  final time = getTime().toString();
-  print(weekdays);
-  print(time);
+  Timer.periodic(const Duration(minutes: 1), (Timer t) => pythonRpi());
 }
 
 FutureOr<dynamic> onRequest(RequestContext context) {
@@ -90,7 +84,7 @@ Future<Response> _post(RequestContext context) async {
 
 // TODO: test to make sure this works, and that it also runs constantly
 Future<void> rpiFunctions() async {
-  final gpio = await initialize_RpiGpio();
+  final gpio = await initialize_RpiGpio(); //for rpi_gpio package
 
   Timer.periodic(const Duration(minutes: 1), (Timer t) async {
     //get date and time from tables
@@ -101,7 +95,7 @@ Future<void> rpiFunctions() async {
       scheduledWeekdaysIntList: weekdaysFromTable,
     )) {
       try {
-        await unlockLock(gpio);
+        await unlockLock();
       } on GpioException catch (message) {
         print(GpioException(message.toString()));
       } on Exception catch (e) {
@@ -111,4 +105,24 @@ Future<void> rpiFunctions() async {
       print('It is not time to open the door yet.');
     }
   });
+}
+
+Future<void> pythonRpi() async {
+  print('pythonRpi fired');
+  final weekdaysFromTable = getWeekdays();
+  final timeFromTable = getTime();
+  if (checkDayAndTimeMatch(
+    scheduledTimeString: timeFromTable,
+    scheduledWeekdaysIntList: weekdaysFromTable,
+  )) {
+    try {
+      await unlockLock();
+    } on GpioException catch (message) {
+      print(GpioException(message.toString()));
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+  } else {
+    print('It is not time to open the door yet.');
+  }
 }
