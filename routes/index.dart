@@ -14,7 +14,7 @@ import '../utilities/output_app.dart';
 // import '../utilities/singletonRpiGpio.dart';
 
 Future<void> init(InternetAddress ip, int port) async {
-  Timer.periodic(const Duration(minutes: 1), (Timer t) => pythonRpi());
+  Timer.periodic(const Duration(seconds: 30), (Timer t) => pythonRpi());
 }
 
 FutureOr<dynamic> onRequest(RequestContext context) {
