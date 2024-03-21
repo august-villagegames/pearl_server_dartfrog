@@ -94,6 +94,7 @@ Future<void> rpiFunctions() async {
       scheduledTimeString: timeFromTable,
       scheduledWeekdaysIntList: weekdaysFromTable,
     )) {
+      print('Time to open from rpiFunctions');
       try {
         await unlockLock();
       } on GpioException catch (message) {
@@ -115,6 +116,7 @@ Future<void> pythonRpi() async {
     scheduledTimeString: timeFromTable,
     scheduledWeekdaysIntList: weekdaysFromTable,
   )) {
+    print('Time to open from pythonRpi function');
     try {
       await unlockLock();
     } on GpioException catch (message) {
@@ -123,6 +125,6 @@ Future<void> pythonRpi() async {
       throw Exception(e);
     }
   } else {
-    print('It is not time to open the door yet.');
+    print('It is not time to open the door yet. python');
   }
 }

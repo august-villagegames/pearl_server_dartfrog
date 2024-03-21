@@ -21,9 +21,8 @@ Future<Response> onRequest(RequestContext context) async {
   // await gpio.dispose();
 
   try {
-    final process =
-        await Process.run('sudo', ['python3', 'utilities/blink.py']);
-    print(process.stdout);
+    await Process.run('sudo', ['python3', 'utilities/blink.py']);
+    print('blink.py run');
   } catch (e) {
     throw Exception(e);
   }
