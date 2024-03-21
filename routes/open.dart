@@ -22,10 +22,15 @@ Future<Response> onRequest(RequestContext context) async {
 
   try {
     print('blink opened.');
-    await Process.run('sudo', ['python3', 'utilities/blink.py']);
+    runBlink();
     print('blink.py finished');
   } catch (e) {
     throw Exception(e);
   }
   return Response.json(body: {'message': 'open crate command received.'});
+}
+
+String runBlink() {
+  Process.run('sudo', ['python3', 'utilities/blink.py']);
+  return 'complete';
 }

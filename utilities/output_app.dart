@@ -2,15 +2,17 @@
 
 import 'dart:io';
 
+import '../routes/open.dart';
+
 const int lockPinInt = 12;
 DateTime? lastUnlock;
 
 Future<void> unlockLock() async {
   final now = DateTime.now();
   try {
-    final process =
-        await Process.run('sudo', ['python3', 'utilities/blink.py']);
-    print(process.stdout);
+    print('blink opened.');
+    runBlink();
+    print('blink.py finished');
   } catch (e) {
     throw Exception(e);
   }
